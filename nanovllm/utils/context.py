@@ -12,6 +12,10 @@ class Context:
     slot_mapping: torch.Tensor | None = None
     context_lens: torch.Tensor | None = None
     block_tables: torch.Tensor | None = None
+    num_decode: int = 0
+    prefill_cu_seqlens_q: torch.Tensor | None = None
+    prefill_cu_seqlens_k: torch.Tensor | None = None
+    sample_indices: torch.Tensor | None = None
 
 _CONTEXT = Context()
 
