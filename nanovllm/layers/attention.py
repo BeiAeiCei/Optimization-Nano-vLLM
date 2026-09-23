@@ -5,7 +5,6 @@ import triton.language as tl
 from flash_attn import flash_attn_varlen_func, flash_attn_with_kvcache
 from nanovllm.utils.context import get_context
 
-# kv_cache.py
 import torch
 from torch.utils.cpp_extension import load_inline
 
@@ -187,8 +186,6 @@ class Attention(nn.Module):
         if k_cache.numel() and v_cache.numel():
             store_kvcache_cuda(k, v, k_cache, v_cache, context.slot_mapping)
         if context.num_decode:
-            # QKV/MLP share one forward; attention keeps separate kernels for
-            # one-token decode rows and the variable-length prompt suffix.
             n = context.num_decode
             decode = flash_attn_with_kvcache(
                 q[:n].unsqueeze(1), k_cache, v_cache,

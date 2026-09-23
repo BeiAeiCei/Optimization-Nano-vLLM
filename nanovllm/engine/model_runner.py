@@ -146,8 +146,6 @@ class ModelRunner:
             if seq.is_prefill:
                 input_ids.extend(seq[start:end])
             else:
-                # Mixed batches place one-token decodes first. TP workers only
-                # receive last_token for these rows, not the full token history.
                 assert seqlen_q == 1 and start == len(seq) - 1
                 assert num_decode == len(cu_seqlens_q) - 1
                 num_decode += 1
